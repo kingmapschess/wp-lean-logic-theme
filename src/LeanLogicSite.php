@@ -20,7 +20,7 @@ class LeanLogicSite extends Timber\Site {
 
 
 	/**
-	 * StarterSite constructor.
+	 * LeanLogicSite constructor.
 	 */
 	public function __construct() {
 		add_action( 'after_setup_theme', [ $this, 'theme_supports' ] );
