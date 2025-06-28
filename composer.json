@@ -1,9 +1,14 @@
 {
-  "name": "timber/starter-theme",
-  "description": "Starter theme to build a Timber theme",
+  "name": "timber/wp-lean-logic-theme",
+  "description": "Lean Logic theme based on Timber Starter Theme",
   "type":"wordpress-theme",
   "license": "MIT",
   "authors": [
+    {
+      "name": "Gareth S. Taylor",
+      "email": "",
+      "homepage": ""
+    },
     {
       "name": "Erik van der Bas",
       "email": "erik@basedonline.nl",
