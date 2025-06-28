@@ -61,11 +61,11 @@
       "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/"
-    }
-  },
+"autoload": {
+  "psr-4": {
+    "LeanLogic\\": "src/"
+  }
+},
   "scripts": {
     "test": "phpunit",  
     "cs": "@php ./vendor/bin/phpcs --colors -s -p -v ./",
