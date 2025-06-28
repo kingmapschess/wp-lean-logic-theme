@@ -3,28 +3,25 @@
 Lean Logic is a component-based WordPress theme built on [Timber](https://timber.github.io/docs/) and [Twig](https://twig.symfony.com/). This document explains the architectural philosophy behind the theme, how Timber and Twig work together, and the pros and cons of this approach.
 
 ```text
-lean-logic/ 
-├── Components/ 
-│   └── Hero/ 
+lean-logic/
+├── Components/
+│   └── Hero/
 │       ├── functions.php
 │       ├── style.scss
-│       └── template.twig 
-├── templates/ 
-│   ├── 404.twig
-│   ├── page-home.twig
-│   └── single.twig/
-├── views/ 
-│   ├── layout.twig 
-│   └── Partials
+│       └── script.js
+├── views/
+│   └── Partials/
 │       ├── banner.twig
 │       ├── footer.twig
 │       ├── header.twig
 │       └── nav.twig
-├── functions.php 
-└── assets/ 
-│    └── styles/
-│       ├── base.scss
-│       └── main.scss
+├── assets/
+│   └── styles/
+│       ├── _tokens.scss
+│       ├── global.scss
+│       └── components.scss
+│   └── scripts/
+│       └── dark-mode.js
 ```
 
 ---
