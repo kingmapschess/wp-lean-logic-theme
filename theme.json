@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "settings": {
+    "color": { "custom": false },
+    "spacing": { "customPadding": false },
+    "typography": { "customFontSize": false }
+  }
+}
