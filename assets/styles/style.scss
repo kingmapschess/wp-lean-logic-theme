@@ -1,0 +1,13 @@
+// style.scss
+
+// Design tokens and utilities
+@import 'tokens';
+@import 'global';
+@import 'utilities';
+@import 'typography';    // Optional: heading & text structure
+
+// Theming
+@import 'dark-mode';
+
+// Auto-generated list of component styles
+@import 'components';
