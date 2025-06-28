@@ -1,0 +1,4 @@
+"scripts": {
+  "build:theme": "node scripts/generate-theme-palette.js",
+  "build": "npm run build:theme && sass assets/styles/style.scss style.css"
+}
