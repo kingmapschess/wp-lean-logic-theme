@@ -1,36 +1,177 @@
-# The Timber Starter Theme
+# Lean Logic
 
-[![Build Status](https://travis-ci.com/timber/starter-theme.svg?branch=master)](https://travis-ci.com/github/timber/starter-theme)
-[![Packagist Version](https://img.shields.io/packagist/v/timber/starter-theme?include_prereleases)](https://packagist.org/packages/timber/starter-theme)
+A DRY, component-based WordPress theme for independent publishing. Built with Timber, Twig, and SCSS. Inspired by the ethos of *Independent Publisher*, but stripped down to the bone: no plugin fluff, no mixed logic, and no visual noise—just clean architecture for writers and developers who value clarity.
 
-The "_s" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your SASS files, scripts, and task runners however you would like!
+---
 
-## Installing the theme
+## ⚠️ Requirements
 
-Follow the guide on [how to Install Timber using the Starter Theme](https://timber.github.io/docs/v2/installation/installation/#use-the-starter-theme).
+- PHP 7.4+
+- WordPress 6.0+
+- Composer (PHP package manager)
+- Node.js 16.x or 18.x
+- npm (bundled with Node)
+- Timber plugin (via Composer)
+- Sass (compiled via Dart Sass)
 
-Then,
+> See [`docs/architecture.md`](docs/architecture.md) for an in-depth look at Timber, Twig, and Lean Logic’s architecture.
 
-1. Rename the theme folder to something that makes sense for your website. You could keep the name `timber-starter-theme` but the point of a starter theme is to make it your own!
-2. Activate the theme in the WordPress Dashboard under **Appearance → Themes**.
-3. Do your thing! And read [the docs](https://timber.github.io/docs/).
+---
 
-## The `StarterSite` class
+## 🧠 Philosophy
 
-In **functions.php**, we call `new StarterSite();`. The `StarterSite` class sits in the **src** folder. You can update this class to add functionality to your theme. This approach is just one example for how you could do it.
+- **Reader-first**: Typography, rhythm, and clarity above all.
+- **Modular**: Every UI block is a component: isolated, reusable, and logical.
+- **DRY**: Logic lives in PHP, presentation in Twig. No duplication. No mess.
+- **Native**: Zero plugin dependencies. Clean WordPress output.
 
-The **src** folder would be the right place to put your classes that [extend Timber’s functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
+---
 
-Small tip: You can make use of Composer’s [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
+## 🏁 Installation
 
-## What else is there?
+```bash
+git clone git@github.com:kingmapschess/lean-logic-wptheme.git wp-content/themes/lean-logic
+cd wp-content/themes/lean-logic
 
-- `assets/` is where you can keep your front-end scripts, styles, or images. In other words, your Sass files, JS files, fonts, and SVGs would live here.
-- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you’ll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
-- `tests/` ... basically don’t worry about (or remove) this unless you know what it is and want to.
+# Install PHP deps (Timber)
+composer install
 
-## Other Resources
+# Install Node deps (Sass)
+npm install
 
-* [Twig for Timber Cheatsheet](https://notlaura.com/the-twig-for-timber-cheatsheet/)
-* [Timber and Twig Reignited My Love for WordPress](https://css-tricks.com/timber-and-twig-reignited-my-love-for-wordpress/) on CSS-Tricks
-* [A real live Timber theme](https://github.com/laras126/yuling-theme).
+# Compile styles
+npm run build:css
+```
+
+Then activate from **Appearance → Themes** in WordPress.
+
+---
+
+## 📦 File Structure
+
+```
+lean-logic/
+├── Components/
+│   └── [Component]/
+│       ├── functions.php       # Context for the component
+│       ├── template.twig       # Component HTML structure
+│       └── style.scss          # Optional styles
+├── views/
+│   ├── layout.twig             # Global layout wrapper
+│   └── Partials/               # Layout partials
+│       ├── header.twig
+│       ├── nav.twig
+│       ├── banner.twig
+│       └── footer.twig
+├── assets/
+│   ├── styles/
+│   │   ├── base.scss           # Design tokens + dark mode variables
+│   │   └── main.scss           # Sass entry point
+│   └── scripts/
+│       └── dark-mode.js        # Dark mode toggle logic
+├── functions.php               # Theme bootstrap + context wiring
+├── style.css                   # Compiled output
+├── README.md
+└── package.json
+```
+
+---
+
+## 🔦 Components
+
+Lean Logic follows a structured component approach. Each component is self-contained.
+
+### Included
+
+- `Hero`
+- `FeatureList`
+- `AuthorBio`
+- `SocialLinks`
+- `AnnouncementBanner`
+
+Each lives in its own folder under `Components/`. You register the component’s `functions.php` in the root `functions.php`, and include its Twig file wherever needed.
+
+---
+
+## 🌓 Dark Mode
+
+Dark mode is implemented with:
+
+- A toggle button that applies `html.dark`
+- CSS variables that adapt to light or dark context
+- JavaScript that saves the user’s preference in `localStorage`
+- Tokens defined in `base.scss` for maximum clarity
+
+---
+
+## 🔠 Typography
+
+Uses a native Windows-friendly system sans-serif stack:
+
+```
+"Segoe UI", Tahoma, Geneva, Verdana, sans-serif
+```
+
+You can override it via `--font-sans` in `base.scss`.
+
+---
+
+## 🧪 Development
+
+### Compile styles:
+
+```bash
+npm run build:css
+```
+
+### Watch styles in dev mode:
+
+```bash
+npm run watch:css
+```
+
+### Optional: Timber context inspection
+
+In any `.twig` file, use `{{ dump() }}` to debug the current context.
+
+---
+
+## 💡 Customization
+
+- Add a new component: Copy a component folder, modify the context/template, wire it in via `functions.php`.
+- Add a nav item: Use WordPress Menus in Admin and assign to `primary`.
+- Update dark mode: Modify variables in `base.scss` and the button in `header.twig`.
+- Update announcement: Edit `banner.twig`, or hook it into a post/CPT/option later.
+
+---
+
+## 📈 Changelog
+
+See [`CHANGELOG.md`](CHANGELOG.md)
+
+---
+
+## 🧱 Architecture
+
+See [`docs/architecture.md`](docs/architecture.md) for:
+
+- How Timber and Twig work together
+- Dependency breakdown
+- Pros and cons of the stack
+- Example rendering logic
+
+---
+
+## 📸 Screenshots
+
+Coming soon—see [#1](https://github.com/yourusername/lean-logic/issues/1) for the gallery backlog.
+
+---
+
+## 🧰 License & Credits
+
+MIT License.  
+Crafted by [@yourusername](https://github.com/yourusername)  
+Inspired by [Independent Publisher](https://wordpress.org/themes/independent-publisher/) 
+
+---
