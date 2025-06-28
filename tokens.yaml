@@ -18,6 +18,18 @@ colors:
     muted: "#666666"
     border: "#dddddd"
 
+  buff:
+    50:  "#fffaf0"  # light sand
+    100: "#fef3da"
+    200: "#fce5b8"
+    300: "#f9d190"
+    400: "#f2b863"
+    500: "#e6a84a"  # core buff
+    600: "#c68d3c"
+    700: "#a17130"
+    800: "#7c5525"
+    900: "#5a3d1a"
+    
   red:
     50:  "#fff1f0"
     100: "#ffe0dd"
