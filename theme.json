@@ -1,7 +1,12 @@
 {
   "version": 2,
   "settings": {
-    "color": { "custom": false },
+    "color": { 
+      "custom": false, 
+      "palette": [
+        // from theme-palette.json
+      ] 
+    },
     "spacing": { "customPadding": false },
     "typography": { "customFontSize": false }
   }
