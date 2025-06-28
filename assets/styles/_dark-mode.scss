@@ -1,0 +1,49 @@
+// _dark-mode.scss
+
+// 1. Class-based toggle
+html.dark {
+  background-color: #111;
+  color: #eee;
+
+  a {
+    color: #9cc9ff;
+  }
+
+  button,
+  input,
+  textarea {
+    background-color: #1a1a1a;
+    color: #fff;
+    border-color: #333;
+  }
+
+  header,
+  footer {
+    background-color: #0d0d0d;
+  }
+}
+
+// 2. System preference fallback (only applied if no manual toggle stored)
+@media (prefers-color-scheme: dark) {
+  html:not(.dark):not(.light) {
+    background-color: #111;
+    color: #eee;
+
+    a {
+      color: #9cc9ff;
+    }
+
+    button,
+    input,
+    textarea {
+      background-color: #1a1a1a;
+      color: #fff;
+      border-color: #333;
+    }
+
+    header,
+    footer {
+      background-color: #0d0d0d;
+    }
+  }
+}
