@@ -12,175 +12,155 @@ use Timber\Timber;
 use Twig\Environment;
 use Twig\TwigFilter;
 
-/**
- * Class StarterSite.
- */
-class LeanLogicSite extends Timber\Site {
+class LeanLogicSite extends Site {
 
+    public function __construct() {
+        add_action( 'after_setup_theme', [ $this, 'theme_supports' ] );
+        add_action( 'init', [ $this, 'register_post_types' ] );
+        add_action( 'init', [ $this, 'register_taxonomies' ] );
 
+        add_filter( 'timber/context', [ $this, 'add_to_context' ] );
+        add_filter( 'timber/twig/filters', [ $this, 'add_filters_to_twig' ] );
+        add_filter( 'timber/twig/functions', [ $this, 'add_functions_to_twig' ] );
+        add_filter( 'timber/twig/environment/options', [ $this, 'update_twig_environment_options' ] );
 
-	/**
-	 * LeanLogicSite constructor.
-	 */
-	public function __construct() {
-		add_action( 'after_setup_theme', [ $this, 'theme_supports' ] );
-		add_action( 'init', [ $this, 'register_post_types' ] );
-		add_action( 'init', [ $this, 'register_taxonomies' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_component_scripts' ] );
 
-		add_filter( 'timber/context', [ $this, 'add_to_context' ] );
-		add_filter( 'timber/twig/filters', [ $this, 'add_filters_to_twig' ] );
-		add_filter( 'timber/twig/functions', [ $this, 'add_functions_to_twig' ] );
-		add_filter( 'timber/twig/environment/options', [ $this, 'update_twig_environment_options' ] );
+        $this->load_components();
 
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
-	/**
-	 * This is where you can register custom post types.
-	 */
-	public function register_post_types() {}
+    public function register_post_types() {}
 
-	/**
-	 * This is where you can register custom taxonomies.
-	 */
-	public function register_taxonomies() {}
+    public function register_taxonomies() {}
 
-	/**
-	 * This is where you add some context.
-	 *
-	 * @param array $context context['this'] Being the Twig's {{ this }}
-	 */
-	public function add_to_context( $context ) {
-		$context['foo']   = 'bar';
-		$context['stuff'] = 'I am a value set in your functions.php file';
-		$context['notes'] = 'These values are available everytime you call Timber::context();';
-		$context['menu']  = Timber::get_menu( 'primary_navigation' );
-		$context['site']  = $this;
+    public function add_to_context( $context ) {
+        $context['foo']          = 'bar';
+        $context['stuff']        = 'I am a value set in your functions.php file';
+        $context['notes']        = 'These values are available everytime you call Timber::context();';
+        $context['menu']         = Timber::get_menu( 'primary_navigation' );
+        $context['site']         = $this;
+        $context['dark_mode']    = isset($_COOKIE['dark']) && $_COOKIE['dark'] === 'true';
+        return $context;
+    }
 
-		return $context;
-	}
+    public function theme_supports() {
+        register_nav_menus(
+            [
+                'primary_navigation' => _x( 'Main menu', 'Backend - menu name', 'timber-starter' ),
+            ]
+        );
 
-	/**
-	 * This is where you can add your theme supports.
-	 */
-	public function theme_supports() {
-		// Register navigation menus
-		register_nav_menus(
-			[
-				'primary_navigation' => _x( 'Main menu', 'Backend - menu name', 'timber-starter' ),
-			]
-		);
+        add_theme_support( 'automatic-feed-links' );
+        add_theme_support( 'title-tag' );
+        add_theme_support( 'post-thumbnails' );
+        add_theme_support(
+            'html5',
+            [
+                'comment-form',
+                'comment-list',
+                'gallery',
+                'caption',
+            ]
+        );
+        add_theme_support(
+            'post-formats',
+            [
+                'aside',
+                'image',
+                'video',
+                'quote',
+                'link',
+                'gallery',
+                'audio',
+            ]
+        );
+        add_theme_support( 'menus' );
+        add_theme_support( 'editor-styles' );
+    }
 
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
+    public function myfoo( $text ) {
+        return $text . ' bar!';
+    }
 
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
-		add_theme_support( 'title-tag' );
+    public function add_filters_to_twig( $filters ) {
+        $additional_filters = [
+            'myfoo' => [
+                'callable' => [ $this, 'myfoo' ],
+            ],
+            'append_version' => [
+                'callable' => function ( $asset ) {
+                    return $asset . '?v=' . filemtime( get_template_directory() . '/' . $asset );
+                }
+            ]
+        ];
 
-		/*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		 */
-		add_theme_support( 'post-thumbnails' );
+        return array_merge( $filters, $additional_filters );
+    }
 
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support(
-			'html5',
-			[
-				'comment-form',
-				'comment-list',
-				'gallery',
-				'caption',
-			]
-		);
+    public function add_functions_to_twig( $functions ) {
+        $additional_functions = [
+            'get_theme_mod' => [
+                'callable' => 'get_theme_mod',
+            ],
+        ];
 
-		/*
-		 * Enable support for Post Formats.
-		 *
-		 * See: https://codex.wordpress.org/Post_Formats
-		 */
-		add_theme_support(
-			'post-formats',
-			[
-				'aside',
-				'image',
-				'video',
-				'quote',
-				'link',
-				'gallery',
-				'audio',
-			]
-		);
+        return array_merge( $functions, $additional_functions );
+    }
 
-		add_theme_support( 'menus' );
-	}
+    public function update_twig_environment_options( $options ) {
+        return $options;
+    }
 
-	/**
-	 * This would return 'foo bar!'.
-	 *
-	 * @param string $text being 'foo', then returned 'foo bar!'
-	 */
-	public function myfoo( $text ) {
-		$text .= ' bar!';
+    /**
+     * Load each component's functions.php dynamically.
+     */
+    public function load_components() {
+        $components_dir = get_template_directory() . '/Components';
 
-		return $text;
-	}
+        if ( ! is_dir( $components_dir ) ) {
+            return;
+        }
 
-	/**
-	 * This is where you can add your own functions to twig.
-	 *
-	 * @link https://timber.github.io/docs/v2/hooks/filters/#timber/twig/filters
-	 * @param array $filters an array of Twig filters.
-	 */
-	public function add_filters_to_twig( $filters ) {
+        foreach ( scandir( $components_dir ) as $component ) {
+            if ( in_array( $component, [ '.', '..' ], true ) ) {
+                continue;
+            }
 
-		$additional_filters = [
-			'myfoo' => [
-				'callable' => [ $this, 'myfoo' ],
-			],
-		];
+            $path = $components_dir . '/' . $component . '/functions.php';
+            if ( file_exists( $path ) ) {
+                require_once $path;
+            }
+        }
+    }
 
-		return array_merge( $filters, $additional_filters );
-	}
+    /**
+     * Enqueue JavaScript from each component and dark mode toggle.
+     */
+    public function enqueue_component_scripts() {
+        $components_dir = get_template_directory() . '/Components';
+        $components_uri = get_template_directory_uri() . '/Components';
 
+        foreach ( glob( $components_dir . '/*/script.js' ) as $path ) {
+            $component = basename( dirname( $path ) );
 
-	/**
-	 * This is where you can add your own functions to twig.
-	 *
-	 * @link https://timber.github.io/docs/v2/hooks/filters/#timber/twig/functions
-	 * @param array $functions an array of existing Twig functions.
-	 */
-	public function add_functions_to_twig( $functions ) {
-		$additional_functions = [
-			'get_theme_mod' => [
-				'callable' => 'get_theme_mod',
-			],
-		];
+            wp_enqueue_script(
+                "leanlogic-$component",
+                "$components_uri/$component/script.js",
+                [],
+                filemtime( $path ),
+                true
+            );
+        }
 
-		return array_merge( $functions, $additional_functions );
-	}
-
-	/**
-	 * Updates Twig environment options.
-	 *
-	 * @see https://twig.symfony.com/doc/2.x/api.html#environment-options
-	 *
-	 * @param array $options an array of environment options
-	 *
-	 * @return array
-	 */
-	public function update_twig_environment_options( $options ) {
-		// $options['autoescape'] = true;
-
-		return $options;
-	}
+        // Enqueue global dark mode toggle
+        wp_enqueue_script(
+            'leanlogic-darkmode',
+            get_template_directory_uri() . '/assets/scripts/dark-mode.js',
+            [],
+            filemtime( get_template_directory() . '/assets/scripts/dark-mode.js' ),
+            true
+        );
+    }
 }
