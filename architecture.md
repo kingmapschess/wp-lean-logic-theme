@@ -31,6 +31,19 @@ assets/
 │       └── dark-mode.js
 ```
 
+### 🔍 What Each File in Styles Does
+
+| File                | Purpose                                                                      |
+|---------------------|-------------------------------------------------------------------------------|
+| `style.scss`        | The main import file—this is what Sass compiles                              |
+| `_tokens.scss`      | Design system: colors, font stacks, spacing scales, z-index layers           |
+| `_global.scss`      | Base styles: `body`, `a`, `button`, selection, scrollbars                    |
+| `_utilities.scss`   | Handy one-liners: `.mt-1`, `.grid-center`, etc.                              |
+| `components.scss`   | Imports all `components/*.scss` partials—can be auto-generated               |
+| `_typography.scss`  | Optional: headings, paragraphs, rhythm rules                                 |
+| `_dark-mode.scss`   | CSS variables or classes for dark theme overrides                            |
+| `components/*.scss` | Each component’s own scoped styles (e.g. `.hero`, `.card`)                   |
+
 ---
 
 ## ⚙️ Dependencies
