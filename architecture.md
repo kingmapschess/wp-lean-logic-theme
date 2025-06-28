@@ -7,7 +7,6 @@ lean-logic/
 ├── Components/
 │   └── Hero/
 │       ├── functions.php
-│       ├── style.scss
 │       └── script.js
 ├── views/
 │   └── Partials/
@@ -15,11 +14,19 @@ lean-logic/
 │       ├── footer.twig
 │       ├── header.twig
 │       └── nav.twig
-├── assets/
-│   └── styles/
-│       ├── _tokens.scss
-│       ├── global.scss
-│       └── components.scss
+assets/
+└── styles/
+|   ├── style.scss                ← 🌐 Main entry point (compiled to style.css)
+|   ├── _tokens.scss              ← 🎨 Design tokens (colors, spacing, typography)
+|   ├── _global.scss              ← 🧱 Normalize, resets, element styles
+|   ├── _utilities.scss           ← 🛠 Utility classes (margin, padding, flex, etc.)
+|   ├── components.scss           ← 🔌 Auto-generated file importing component styles
+|   ├── _typography.scss          ← ✍️ Base font rules (optional, or merge into global)
+|   ├── _dark-mode.scss           ← 🌙 Dark theme overrides
+|   └── components/
+|       ├── hero.scss             ← 🧩 Per-component styles (loaded via import)
+|       ├── card.scss
+|       └── testimonial.scss
 │   └── scripts/
 │       └── dark-mode.js
 ```
