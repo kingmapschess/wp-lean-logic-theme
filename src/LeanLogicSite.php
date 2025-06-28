@@ -1,11 +1,11 @@
 <?php
 
 /**
- * StarterSite class
+ * LeanLogicSite class
  * This class is used to add custom functionality to the theme.
  */
 
-namespace App;
+namespace LeanLogic;
 
 use Timber\Site;
 use Timber\Timber;
@@ -15,7 +15,7 @@ use Twig\TwigFilter;
 /**
  * Class StarterSite.
  */
-class StarterSite extends Site {
+class LeanLogicSite extends Timber\Site {
 
 
 
