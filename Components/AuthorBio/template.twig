@@ -1,0 +1,12 @@
+<section class="author-bio">
+  <h2>About the Author</h2>
+  <div class="author-bio__content">
+    {% if avatar %}
+      <img class="author-bio__avatar" src="{{ avatar }}" alt="{{ name }}">
+    {% endif %}
+    <div>
+      <h3>{{ name }}</h3>
+      <p>{{ description }}</p>
+    </div>
+  </div>
+</section>

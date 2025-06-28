@@ -1,0 +1,14 @@
+<section class="hero">
+  <div class="hero__content">
+    <h1>{{ heading }}</h1>
+    {% if text %}
+      <p>{{ text }}</p>
+    {% endif %}
+  </div>
+
+  {% if image %}
+    <div class="hero__image">
+      <img src="{{ image }}" alt="{{ heading }}">
+    </div>
+  {% endif %}
+</section>
